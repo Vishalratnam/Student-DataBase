@@ -118,41 +118,39 @@ int main()
 	fp=fopen("StudentData.txt","a+");
 	
 	HEAD head;
-
+	head.root=NULL;
+	head.length=0;
 	if (NULL != fp) 
 	{
 		printf("File Opened Sucessfully\n");
-		fseek (fp, 0, SEEK_END);
-		size = ftell(fp);
-		if (0 == size) {
-			printf("File is empty\n");
-			head.root=NULL;
-			head.length=0;
-		}
-		else{
-			printf("Loading Student Database\n");
-			char str[20];
-			while(!feof(fp))
+		printf("Loading Student Database\n");
+		char str;
+		str='#';
+		//while(!feof(fp))
+		//{
+			//fscanf(fp,"%ch",str);
+			if(str!=',')
 			{
-				fscanf(fp,"%[^\n]",str);
-				while(str[0]!=',')
-				{
-					STUD s;
-					fscanf(fp,"%[^\n]",s.srn);
-					fscanf(fp,"%[^\n]",s.name);
-					fscanf(fp,"%d",&s.sem);
-					fscanf(fp,"%d",&s.year);
-					fscanf(fp,"%d",&s.in_hostel);
-					fscanf(fp,"[^\n]",s.block);
-					fscanf(fp,"%d",&s.room_no);
-					fscanf(fp,"%d",&s.mark.dml);
-					fscanf(fp,"%d",&s.mark.ids);
-					fscanf(fp,"%d",&s.mark.ds);
-					fscanf(fp,"%d",&s.mark.ddco);
-					create_entry(&head,s);
-				}
-			}				
-		}
+				STUD s;
+				fscanf(fp,"%[^\n]\n",s.srn);
+				//printf("srn: %s\n",s.srn);
+				fscanf(fp,"%[^\n]\n",s.name);
+				fscanf(fp,"%d\n",&s.sem);
+				//printf("roll no: %d\n",s.sem);
+				fscanf(fp,"%d",&s.year);
+				//printf("year: %d\n",s.year);
+				fscanf(fp,"%d\n",&s.in_hostel);
+				fscanf(fp,"[^\n]\n",s.block);
+				fscanf(fp,"%d\n",&s.room_no);
+				fscanf(fp,"%d\n",&s.mark.dml);
+				fscanf(fp,"%d\n",&s.mark.ids);
+				fscanf(fp,"%d\n",&s.mark.ds);
+				fscanf(fp,"%d\n",&s.mark.ddco);
+				//fscanf(fp,"%[^\n]",str);
+				//create_entry(&head,s);
+				str=',';
+			}
+		//}				
 	}
 	int choice;
 	printf("\t\t\t\t1:NEW ENTRY\n\t\t\t\t2:STUDENT QUERY\n\t\t\t\t3:AVERAGE MARKS\n");
@@ -192,6 +190,7 @@ int main()
 				fflush(stdin);
 				if(h=='y')
 				{
+					fprintf(fp,"%d\n",1);
 					printf("Enter the block name:");
 					scanf("%[^\n]",&(s.block));
 					fprintf(fp,"%s\n",s.block);
@@ -204,6 +203,8 @@ int main()
 				else{
 					s.block[0]='N';
 					s.room_no=-1;
+					fprintf(fp,"%d\n",-1);
+					fprintf(fp,"N\n");
 					fprintf(fp,"%d\n",-1);
 				}
 				printf("Enter Marks?(y/n) :");
